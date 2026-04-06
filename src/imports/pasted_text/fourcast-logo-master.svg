@@ -1,0 +1,185 @@
+You are working from an ATTACHED / SELECTED MASTER FOURCAST LOGO.
+
+This is a strict extension task, not a logo design task.
+
+NON-NEGOTIABLE RULES
+1. Do NOT redesign the logo.
+2. Do NOT recreate the logo from memory.
+3. Do NOT make up a substitute mark, monogram, pin, flag, letterform, icon, or placeholder.
+4. Do NOT simplify, reinterpret, stylize, abstract, modernize, or “improve” the logo.
+5. Do NOT generate any new emblem.
+6. Use the attached logo asset itself as the source of truth.
+7. If you cannot confidently identify or use the attached logo, STOP and ask questions. Do not proceed.
+
+WORKFLOW — FOLLOW IN THIS EXACT ORDER
+
+PHASE 1 — INSPECTION ONLY
+Before creating anything, inspect the attached / selected logo and return a short structured audit with these exact fields:
+
+A. “Detected logo asset”
+- What file / layer / frame you believe is the master logo
+
+B. “What I observe”
+List 8–12 concrete visual observations about the actual attached logo only.
+Examples:
+- overall silhouette
+- internal shapes
+- whether it contains a golfer silhouette
+- whether it sits inside a compass-star shape
+- orientation
+- fill behavior
+- color usage
+- wordmark presence
+- spacing relationships
+- whether it is icon-only or full lockup
+
+C. “What I will preserve exactly”
+List the parts of the logo you will not change.
+
+D. “Confidence”
+Give a confidence score from 0–100% that you are using the real attached Fourcast logo rather than inventing a replacement.
+
+IMPORTANT:
+Do not generate any brand kit assets yet.
+Do not create previews yet.
+Do not create a new logo yet.
+Do not show alternatives yet.
+
+STOP AFTER PHASE 1.
+
+If your confidence is below 98%, ask up to 3 concise clarification questions and WAIT.
+If there are multiple attached logo files, ask which one is the master source and WAIT.
+If the selected asset is incomplete, cropped, rasterized poorly, or ambiguous, say so and WAIT.
+If you cannot clearly detect the real logo, say:
+“I cannot reliably identify the master logo from the attached asset, so I am pausing instead of inventing a replacement.”
+
+Only continue after confirmation.
+
+PHASE 2 — EXECUTION
+Once the logo is confirmed, build a full Fourcast brand kit by extending the confirmed logo without altering it.
+
+BRAND CONTEXT TO RESPECT
+- Brand: Fourcast
+- Product: golf group coordination app
+- Brand line: “Every group has its legends. Fourcast keeps the score.”
+- Audience: recreational golf groups
+- Brand feeling: premium, grounded, confident, social, outdoorsy, warm, memorable
+- Avoid: generic startup minimalism, sports betting energy, fake luxury golf club vibes, mascots replacing the core mark
+
+LOCKED BRAND DETAILS
+- Logo is already complete and must remain intact
+- Core logo description: golfer silhouette inside compass-star shape
+- Primary anchor colors:
+  - dark green #13401F / #153B1F
+  - copper #B17F61
+  - parchment #F7F3EA
+- Extended palette:
+  - pine #0B1F14
+  - forest #132E1C
+  - fairway #1A472A
+  - rough #245634
+  - trophy #C9A227
+  - parchment #F5F2EB
+  - linen #EAE6DD
+  - stone #C4BFB3
+  - charcoal #3D3A34
+  - birdie #1B7A3D
+  - bogey #B8860B
+  - doublePlus #8B2D2D
+- Wordmark guidance:
+  - FOURCAST GOLF
+  - DM Sans 700
+  - all caps
+  - +0.15em letterspacing
+
+DELIVERABLES
+Create only applications and approved variations of the confirmed logo:
+
+1. MASTER LOGO SYSTEM
+- primary full-color logo
+- icon-only mark
+- horizontal lockup
+- stacked lockup
+- wordmark lockup
+- clear space rules
+- minimum size rules
+- incorrect usage examples
+
+2. COLOR VARIATIONS
+- full-color primary
+- dark green on parchment
+- parchment on dark green
+- copper-accent version
+- one-color black
+- one-color white
+- reversed version
+- embroidery / stamp-safe flat version
+
+3. APP ICON SYSTEM
+Using the real logo intact:
+- iOS app icon
+- Android adaptive icon
+- monochrome notification icon
+- favicon / PWA icon
+Provide 3 background approaches:
+- parchment
+- pine / forest
+- premium copper-accent
+Do not crop so tightly that the logo becomes unrecognizable.
+Do not replace the logo with a symbol fragment unless it is directly duplicated from the real mark.
+
+4. BRAND FOUNDATIONS
+- color styles / tokens
+- type styles
+- usage guidance
+- subtle backgrounds
+- system accents
+- lightweight supporting graphic language derived from the existing logo geometry only
+
+5. MOTION-READY ASSETS
+Create motion concepts using the existing logo only:
+- loading animation concept
+- intro / splash animation concept
+Requirements:
+- logo remains intact
+- motion may reveal, mask, fade, pan, scale, or sequence the existing logo
+- motion may not morph the logo into a different symbol
+- motion may not invent new iconography
+Deliver storyboard frames, timing notes, and layer structure prepared for motion handoff
+
+6. MARKETING STARTERS
+- splash screen
+- app store screenshot cover treatment
+- social launch tile
+- email header treatment
+
+EXECUTION RULES
+- Duplicate and reuse the attached logo vectors whenever possible
+- Preserve geometry exactly
+- Preserve relative proportions exactly
+- Preserve negative space exactly
+- Preserve silhouette exactly
+- Do not redraw from scratch if the original asset is available
+- Do not create “inspired by” alternatives
+- Do not create exploratory logo concepts
+- Do not output any placeholder logo under any circumstance
+
+FAILURE BEHAVIOR
+If at any point you are uncertain whether a frame uses the real logo:
+- pause
+- flag the uncertainty
+- ask a clarification question
+- do not generate a substitute
+
+FINAL SELF-CHECK BEFORE PRESENTING
+Confirm all of the following:
+1. I used the attached Fourcast logo, not an invented replacement
+2. I did not alter the logo geometry
+3. Every asset is a variation or application, not a redesign
+4. The app icons still use the real mark
+5. The motion concepts preserve the original mark
+6. No fake monograms, pins, flags, or proxy symbols were introduced
+
+At the end, include a section called:
+“Preserved exactly from the master logo”
+with a bullet list of what remained unchanged.

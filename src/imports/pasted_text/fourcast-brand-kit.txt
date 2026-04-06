@@ -1,0 +1,197 @@
+Use the ATTACHED MASTER FOURCAST LOGO as the non-negotiable source of truth.
+
+Your job is to create a COMPLETE BRAND KIT for Fourcast by extending the existing logo system into production-ready brand assets.
+
+CRITICAL RULE:
+Do NOT redesign, reinterpret, simplify, modernize, abstract, stylize, redraw, or alter the core logo geometry.
+Do NOT change the silhouette, proportions, angles, negative space, internal shapes, stroke logic, or icon construction.
+Preserve the logo exactly as provided.
+You may only create approved variations, lockups, applications, backgrounds, spacing systems, and motion built from the existing logo.
+
+If any requested deliverable would require changing the logo itself, preserve the logo and note the limitation instead of redesigning it.
+
+BRAND SOURCE OF TRUTH:
+- Brand name: Fourcast
+- Core brand line: “Every group has its legends. Fourcast keeps the score.”
+- Product: golf group coordination app for recurring recreational groups
+- Brand feeling: premium, confident, outdoorsy, smart, warm, social, memorable
+- Avoid: tech startup cliché, neon sports-gambling vibe, generic luxury golf country club stiffness, cartoonish overplay
+- Logo: existing master logo attached
+- Existing palette anchor:
+  - Dark green: #13401F / #153B1F
+  - Copper accent: #B17F61
+  - Parchment: #F7F3EA
+- Extended app/system palette:
+  - pine #0B1F14
+  - forest #132E1C
+  - fairway #1A472A
+  - rough #245634
+  - trophy #C9A227
+  - parchment #F5F2EB
+  - linen #EAE6DD
+  - stone #C4BFB3
+  - charcoal #3D3A34
+  - birdie #1B7A3D
+  - bogey #B8860B
+  - doublePlus #8B2D2D
+- Wordmark guidance:
+  - “FOURCAST GOLF”
+  - DM Sans 700
+  - all caps
+  - +0.15em letterspacing
+- Mascot exists in brand world: beagle in golf cap
+  - Do NOT invent a new mascot style here unless used only as a secondary supporting graphic system
+  - Primary focus is the logo system and core brand kit
+
+DELIVERABLES:
+Create one organized Figma page with clearly labeled sections and reusable components/styles.
+
+SECTION 1 — MASTER LOGO SYSTEM
+Create:
+1. Primary logo lockup
+2. Icon-only mark
+3. Horizontal logo lockup
+4. Stacked logo lockup
+5. Wordmark-only version
+6. Small-size optimized lockup for mobile headers and favicons
+7. Clear-space rules
+8. Minimum size rules
+9. Incorrect usage examples
+
+SECTION 2 — COLOR VARIATIONS
+Create approved logo variants ONLY using the existing logo:
+1. Full-color primary version
+2. Dark green on parchment
+3. Parchment on dark green
+4. Copper accent version
+5. One-color black
+6. One-color white
+7. Reversed version for dark backgrounds
+8. Flat version for embroidery / merch / stamp use
+9. Subtle premium version for splash screens and hero moments
+Do not add gradients unless they are extremely restrained and feel premium. Flat color is the default.
+
+SECTION 3 — APP ICON SYSTEM
+Create production-ready concept directions for:
+1. iOS app icon
+2. Android adaptive app icon
+3. Notification icon / monochrome icon
+4. Favicon / PWA icon
+Rules:
+- Use the existing logo intact
+- Optimize crop, padding, background, and contrast
+- Test icon legibility at very small sizes
+- Prioritize recognizability over detail
+- Provide 3 icon background approaches:
+  a. parchment background
+  b. deep pine / forest background
+  c. premium copper-accent background
+- Keep it elegant, bold, and unmistakable
+- No fake 3D, no glossy skeuomorphism, no sports-betting energy, no generic gradients
+
+SECTION 4 — BRAND KIT FOUNDATION
+Create:
+1. Core color styles / tokens
+2. Typography styles
+3. Background recipes
+4. Border / radius guidance
+5. Shadow guidance if needed
+6. UI accent logic for success / warning / error
+7. Pattern / texture suggestions derived from the logo geometry only if they remain subtle
+8. A lightweight visual language that can extend into app screens, App Store assets, website, email, and merch
+
+SECTION 5 — MOTION SYSTEM
+Create motion-ready concepts based on the existing logo without altering the logo shape.
+
+A. Loading animation
+Design a short, elegant loading animation built from the existing logo.
+Requirements:
+- 1.0 to 2.0 seconds
+- loops cleanly
+- feels premium, confident, restrained
+- readable at small app-loading sizes
+- no gimmicks, no spinning golf balls, no cheesy swooshes
+- animation should feel like anticipation, signal, rhythm, or scorekeeping
+Deliver:
+- key frames / storyboard frames
+- timing notes
+- easing notes
+- layered structure prepared for handoff to motion / Lottie tools
+- if current Figma workflow supports JSON/Lottie-friendly setup, organize layers accordingly
+- if JSON export is not natively supported, provide the motion spec so it can be rebuilt exactly
+
+B. Intro / splash animation
+Design a short intro animation for app open or marketing usage.
+Requirements:
+- 2.0 to 4.0 seconds
+- logo remains intact throughout
+- motion reveals the brand, not a redesigned logo
+- premium sports-tech feel with warmth
+- should work for app splash, social teaser, or website hero moment
+Deliver:
+- storyboard
+- key frames
+- timing
+- easing
+- recommended dark and light background versions
+- optional sound-design notes in plain language
+
+SECTION 6 — APP STORE / MARKETING ASSET STARTERS
+Create starter directions for:
+1. App Store screenshot cover system
+2. Splash screen
+3. Launch / waitlist social tile
+4. Email header / announcement graphic
+All should use the logo system consistently and feel like one family.
+
+SECTION 7 — EXPORT / ORGANIZATION
+Organize the file so a product designer or developer can use it immediately:
+- Pages and sections labeled clearly
+- Components named cleanly
+- Color styles created
+- Typography styles created
+- Export-ready frames labeled by purpose
+- Icon frames labeled by platform
+- Motion frames labeled by sequence and timing
+- Include a short “handoff notes” section
+
+QUALITY BAR:
+The result should feel like a polished brand kit for a premium golf app with social energy and real-world outdoor use.
+Think: crisp, high-contrast, memorable, premium, modern, legible, ownable.
+This brand should feel equally credible in:
+- App Store
+- mobile UI
+- website hero
+- score-sharing cards
+- merch
+- event signage
+
+DO NOT:
+- redesign the logo
+- redraw the mark
+- invent a new emblem
+- overdecorate
+- add generic AI flourishes
+- add cheap gradients
+- create a gambling-app aesthetic
+- make it look like a random golf club logo
+- make the mascot the primary mark
+
+FINAL OUTPUT FORMAT:
+Return the brand kit in clearly titled sections with:
+- logo variations
+- icon set
+- color system
+- typography system
+- motion boards
+- splash / intro concepts
+- handoff notes
+- a short list called “What was preserved exactly from the master logo”
+
+Before finalizing, self-check:
+1. Did I preserve the master logo exactly?
+2. Are all variations true applications rather than redesigns?
+3. Are icons legible at small sizes?
+4. Does the motion respect the original mark?
+5. Does the system feel premium and cohesive?
+If any answer is no, revise before presenting.
