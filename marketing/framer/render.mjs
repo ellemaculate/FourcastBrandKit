@@ -7,12 +7,12 @@ const htmlPath = 'file://' + path.join(__dirname, 'mockups.html');
 const outDir = path.join(__dirname, 'exports');
 
 const screens = [
-  ['s1', 'fourcast-01-home-live-round'],
-  ['s2', 'fourcast-02-captain-dashboard'],
-  ['s3', 'fourcast-03-checkin-roster'],
-  ['s4', 'fourcast-04-team-draw'],
-  ['s5', 'fourcast-05-beagle-standings'],
-  ['s6', 'fourcast-06-settlement-share'],
+  ['s1', 'fourcast-01-home'],
+  ['s2', 'fourcast-02-score-entry'],
+  ['s3', 'fourcast-03-checkin'],
+  ['s4', 'fourcast-04-leaderboard'],
+  ['s5', 'fourcast-05-share-beagle'],
+  ['s6', 'fourcast-06-settlement'],
 ];
 
 const browser = await chromium.launch({

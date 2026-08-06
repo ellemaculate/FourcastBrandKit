@@ -3,364 +3,406 @@
 <head>
 <meta charset="utf-8" />
 <style>
-  @font-face { font-family:'DM Serif Display'; src:local('DM Serif Display'); }
-  @font-face { font-family:'DM Sans'; src:local('DM Sans'); }
-
   :root{
-    --bg:#F2F2F2; --navy:#141B34; --navy2:#1E2A50;
-    --ink:#282E34; --ink2:#7A756B; --line:#E8E8E8;
-    --birdie:#1B7A3D; --active:#65C955; --trophy:#C9A227;
-    --parchment:#F5F2EB; --pine:#0B1F14; --stone:#C4BFB3;
-    --owe:#8B2D2D; --tabwhite:#FFFFFF;
+    --bone:#F5F0E8; --boneRaised:#FBF8F2; --boneSunk:#EAE6DD; --white:#FFFFFF;
+    --pine:#0E3A2B; --pineMid:#1E4A2E; --pineDeep:#061B13;
+    --navy:#0B1E3A; --navyDeep:#060E1E; --navyCard:#141B34; --navyRaised:#132A4A;
+    --flag:#C1362A; --brass:#B8893A; --brassLight:#D4A84B;
+    --eagle:#1E6B5C; --birdie:#2E7A4E; --birdieDk:#9ED7A8; --bogey:#AC7E18; --double:#C53D29;
+    --ink:#0B1E3A; --ink2:#344640; --ink3:#5C6D6A; --inkFaint:#A8B4AB;
+    --inkNavy:#7890A4; --inkNavyMuted:#A8BACA; --onDark:#F5F2EB;
+    --rule:rgba(10,29,20,0.08); --ruleMid:rgba(10,29,20,0.14);
   }
-  *{box-sizing:border-box; margin:0; padding:0; -webkit-font-smoothing:antialiased;}
-  body{ background:#ffffff; font-family:'DM Sans',system-ui,sans-serif; }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-font-smoothing:antialiased;}
+  body{background:#fff;font-family:'Inter',system-ui,sans-serif;}
+  .sheet{display:flex;flex-wrap:wrap;gap:64px;padding:64px;align-items:flex-start;}
 
-  .sheet{ display:flex; flex-wrap:wrap; gap:64px; padding:64px; align-items:flex-start; }
-
-  /* ---------- device frame ---------- */
-  .device{
-    width:402px; height:872px; border-radius:58px; padding:13px;
+  /* device */
+  .device{width:402px;height:872px;border-radius:58px;padding:13px;
     background:linear-gradient(145deg,#3a3d42,#0f1113 55%,#26282c);
-    box-shadow:0 40px 80px -30px rgba(0,0,0,.45), inset 0 0 3px rgba(255,255,255,.4);
-    position:relative;
-  }
-  .screen{
-    position:relative; width:100%; height:100%; border-radius:46px; overflow:hidden;
-    background:var(--bg); display:flex; flex-direction:column;
-  }
-  .island{ position:absolute; top:12px; left:50%; transform:translateX(-50%);
-    width:118px; height:34px; background:#000; border-radius:20px; z-index:40; }
-  .statusbar{ height:56px; flex:0 0 auto; display:flex; align-items:flex-end;
-    justify-content:space-between; padding:0 30px 8px; font-size:15px; font-weight:600; color:var(--ink); z-index:30;}
-  .statusbar.on-dark{ color:#fff; }
-  .sb-icons{ display:flex; align-items:center; gap:6px; }
-  .sb-icons svg{ display:block; }
+    box-shadow:0 40px 80px -30px rgba(0,0,0,.45),inset 0 0 3px rgba(255,255,255,.4);position:relative;}
+  .screen{position:relative;width:100%;height:100%;border-radius:46px;overflow:hidden;
+    background:var(--bone);display:flex;flex-direction:column;}
+  .island{position:absolute;top:12px;left:50%;transform:translateX(-50%);width:118px;height:34px;background:#000;border-radius:20px;z-index:40;}
+  .statusbar{height:56px;flex:0 0 auto;display:flex;align-items:flex-end;justify-content:space-between;
+    padding:0 30px 8px;font-size:15px;font-weight:600;color:var(--ink);z-index:30;font-family:'Inter';}
+  .statusbar.dark{color:var(--onDark);}
+  .sb{display:flex;align-items:center;gap:6px;}
 
-  .body{ flex:1 1 auto; overflow:hidden; padding:6px 20px 0; }
-  .tabbar{ flex:0 0 auto; height:86px; background:var(--tabwhite); border-top:1px solid var(--line);
-    display:flex; justify-content:space-around; align-items:flex-start; padding:12px 8px 0; }
-  .tab{ display:flex; flex-direction:column; align-items:center; gap:5px; color:#B6B9C3; font-size:11px; font-weight:500;}
-  .tab.active{ color:var(--birdie); }
-  .tab svg{ width:26px; height:26px; }
+  /* type helpers */
+  .disp{font-family:'Barlow Condensed';font-weight:700;text-transform:uppercase;line-height:.95;letter-spacing:-.01em;color:var(--ink);}
+  .lbl{font-family:'Inter';font-weight:700;font-size:13px;letter-spacing:1.82px;text-transform:uppercase;}
+  .eyebrow{font-family:'Inter';font-weight:700;font-size:11px;letter-spacing:1.82px;text-transform:uppercase;}
+  .mono{font-family:'JetBrains Mono';font-variant-numeric:tabular-nums;}
+  .body{flex:1 1 auto;overflow:hidden;}
+  .pad{padding:0 20px;}
 
-  /* type */
-  .greet{ font-family:'DM Serif Display',serif; font-size:30px; line-height:1.05; color:var(--ink); }
-  .kicker{ font-size:13px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--ink2); }
-  .h-sec{ font-family:'DM Serif Display',serif; font-size:22px; color:var(--ink); }
-  .muted{ color:var(--ink2); }
-  .num{ font-family:'DM Serif Display',serif; }
+  .tabbar{flex:0 0 auto;height:82px;background:var(--white);border-top:1px solid rgba(11,30,58,.10);
+    display:flex;justify-content:space-around;padding:10px 6px 0;}
+  .tab{display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--ink3);}
+  .tab .lab{font-family:'Barlow Condensed';font-weight:700;font-size:13px;letter-spacing:1.4px;text-transform:uppercase;}
+  .tab.active{color:var(--pine);} .tab svg{width:22px;height:22px;}
+  .tab .strip{width:32px;height:3px;border-radius:2px;background:transparent;margin-bottom:1px;}
+  .tab.active .strip{background:var(--pine);}
 
-  .toprow{ display:flex; align-items:center; justify-content:space-between; padding:2px 4px 14px; }
-  .burger{ width:22px; height:16px; display:flex; flex-direction:column; justify-content:space-between; }
-  .burger i{ height:2.5px; background:#A6A6A6; border-radius:2px; }
-  .burger i:nth-child(2){ width:70%; }
-
-  .brandmark{ display:flex; align-items:center; gap:9px; }
-  .brandmark svg{ width:26px; height:26px; }
-  .brandmark b{ font-family:'DM Serif Display',serif; font-weight:400; font-size:19px; color:var(--ink); letter-spacing:.01em;}
-
-  /* cards */
-  .card{ border-radius:21px; background:#fff; padding:18px; box-shadow:0 8px 24px -16px rgba(20,27,52,.35); }
-  .navycard{ border-radius:24px; background:
-      radial-gradient(120% 90% at 85% 0%, rgba(101,201,85,.16), transparent 55%),
-      linear-gradient(160deg,#20305e 0%, var(--navy) 62%, #0d1428 100%);
-    color:#fff; padding:20px; position:relative; overflow:hidden; }
-  .pill{ display:inline-flex; align-items:center; gap:6px; padding:6px 11px; border-radius:999px;
-    font-size:12px; font-weight:600; }
-  .pill.gold{ background:rgba(201,162,39,.16); color:var(--trophy); }
-  .pill.birdie{ background:rgba(27,122,61,.12); color:var(--birdie); }
-  .pill.light{ background:rgba(255,255,255,.14); color:#fff; }
-  .chip{ padding:5px 10px; border-radius:999px; font-size:12px; font-weight:600; background:#EFEDE7; color:var(--ink2);}
-
-  .statgrid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-  .stat .big{ font-family:'DM Serif Display',serif; font-size:34px; color:var(--ink); line-height:1; }
-  .stat .lbl{ font-size:12.5px; color:var(--ink2); margin-top:6px; }
-
-  /* fairway art for course card */
-  .fairway{ position:absolute; inset:0; z-index:0; }
-  .fairway .sky{ position:absolute; inset:0; background:linear-gradient(180deg,#16406b,#0f2f4f); }
-  .fairway .grass{ position:absolute; left:-10%; right:-10%; bottom:-30%; height:78%;
-    background:radial-gradient(120% 140% at 50% 100%, #2f8f43 0%, #1f6a34 45%, #14401f 100%);
-    border-radius:60% 60% 0 0 / 40% 40% 0 0; }
-  .fairway .path{ position:absolute; bottom:-4%; left:38%; width:24%; height:70%;
-    background:linear-gradient(180deg,#8fbf6a,#4f8a3d); border-radius:50% 50% 0 0; transform:perspective(300px) rotateX(35deg); opacity:.85;}
-  .fairway .flag{ position:absolute; bottom:44%; left:49%; width:2px; height:44px; background:#F5F2EB;}
-  .fairway .flag:after{ content:''; position:absolute; top:0; left:2px; width:16px; height:11px; background:var(--trophy); }
-
-  .row{ display:flex; align-items:center; gap:12px; }
-  .avatar{ width:38px; height:38px; border-radius:50%; flex:0 0 auto; display:flex; align-items:center; justify-content:center;
-    font-weight:700; font-size:14px; color:#fff; }
-  .divider{ height:1px; background:var(--line); margin:12px 0; }
-
-  .toggle{ width:30px; height:30px; border-radius:50%; flex:0 0 auto; display:flex; align-items:center; justify-content:center; }
-  .toggle.on{ background:var(--birdie); }
-  .toggle.off{ border:2px solid #D9D5CC; }
-  .toggle svg{ width:16px; height:16px; }
-
-  .btn{ height:54px; border-radius:16px; background:var(--navy); color:#fff; display:flex; align-items:center;
-    justify-content:center; gap:9px; font-weight:600; font-size:16px; }
-  .btn.green{ background:var(--birdie); }
-
-  .lb-row{ display:flex; align-items:center; gap:12px; padding:11px 0; }
-  .lb-rank{ width:22px; font-family:'DM Serif Display',serif; font-size:18px; color:var(--ink2); text-align:center;}
-  .lb-score{ margin-left:auto; font-family:'DM Serif Display',serif; font-size:19px; }
-  .up{ color:var(--birdie);} .down{ color:var(--owe);}
-
-  .settle-row{ display:flex; align-items:center; justify-content:space-between; padding:12px 0; }
-  .amt{ font-family:'DM Serif Display',serif; font-size:18px; }
-  small.cap{ font-size:12px; }
-
-  .sharecard{ border-radius:18px; padding:16px; color:#fff; background:
-      radial-gradient(120% 100% at 100% 0%, rgba(201,162,39,.22), transparent 60%),
-      linear-gradient(155deg,#173a24,#0b1f14); }
+  .avatar{border-radius:50%;flex:0 0 auto;display:flex;align-items:center;justify-content:center;
+    font-family:'Inter';font-weight:700;color:var(--bone);}
+  .pill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;}
+  .cardshadow{box-shadow:0 6px 18px -12px rgba(6,27,19,.4);}
+  .lbar{width:3px;height:18px;background:var(--pine);border-radius:2px;}
 </style>
 </head>
 <body>
 <div class="sheet">
 
-  <!-- ================= SCREEN 1 — HERO: player home, live round ================= -->
-  <div class="device" id="s1"><div class="screen">
-    <div class="island"></div>
-    <div class="statusbar"><span>7:40</span><span class="sb-icons">
-      <svg width="18" height="12" viewBox="0 0 18 12" fill="none"><rect x="0" y="7" width="3" height="5" rx="1" fill="#282E34"/><rect x="5" y="4" width="3" height="8" rx="1" fill="#282E34"/><rect x="10" y="1.5" width="3" height="10.5" rx="1" fill="#282E34"/><rect x="15" y="0" width="3" height="12" rx="1" fill="#282E34" opacity=".35"/></svg>
-      <svg width="17" height="12" viewBox="0 0 17 12" fill="none"><path d="M8.5 2.5c2.3 0 4.4.9 6 2.4l-1.4 1.4A6.6 6.6 0 0 0 8.5 5.4c-1.7 0-3.3.6-4.6 1.9L2.5 5.9A8.6 8.6 0 0 1 8.5 2.5Z" fill="#282E34"/><circle cx="8.5" cy="9.5" r="1.6" fill="#282E34"/></svg>
-      <svg width="26" height="12" viewBox="0 0 26 12" fill="none"><rect x="1" y="1" width="21" height="10" rx="3" stroke="#282E34" stroke-opacity=".5"/><rect x="3" y="3" width="16" height="6" rx="1.5" fill="#282E34"/><rect x="23" y="4" width="2" height="4" rx="1" fill="#282E34" opacity=".5"/></svg>
-    </span></div>
-    <div class="body">
-      <div class="toprow">
-        <div><div class="kicker">Saturday Skins</div><div class="greet">Morning, Cap.</div></div>
-        <div class="burger"><i></i><i></i><i></i></div>
+<!-- ===================== 1 · HOME ===================== -->
+<div class="device" id="s1"><div class="screen">
+  <div class="island"></div>
+  <div class="statusbar"><span>9:41</span><span class="sb">
+    <svg width="18" height="12" viewBox="0 0 18 12"><rect x="0" y="7" width="3" height="5" rx="1" fill="#0B1E3A"/><rect x="5" y="4" width="3" height="8" rx="1" fill="#0B1E3A"/><rect x="10" y="1.5" width="3" height="10.5" rx="1" fill="#0B1E3A"/><rect x="15" y="0" width="3" height="12" rx="1" fill="#0B1E3A" opacity=".35"/></svg>
+    <svg width="26" height="12" viewBox="0 0 26 12"><rect x="1" y="1" width="21" height="10" rx="3" stroke="#0B1E3A" stroke-opacity=".5" fill="none"/><rect x="3" y="3" width="16" height="6" rx="1.5" fill="#0B1E3A"/></svg>
+  </span></div>
+  <div class="body">
+    <!-- greeting -->
+    <div class="pad" style="display:flex;align-items:center;gap:13px;padding-top:20px;padding-bottom:14px;">
+      <div class="avatar" style="width:52px;height:52px;background:#3F6C4E;font-size:20px;border:3px solid rgba(245,240,232,.5);">EM</div>
+      <div style="flex:1;">
+        <div class="disp" style="font-size:32px;color:var(--navy);">Hi, Elle</div>
+        <div class="eyebrow" style="color:var(--ink3);margin-top:3px;">Captain · The Mariners</div>
       </div>
+      <div style="width:44px;height:44px;border-radius:50%;background:var(--boneRaised);display:flex;align-items:center;justify-content:center;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 9a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6Z" stroke="#0B1E3A" stroke-width="1.7"/><path d="M10 19a2 2 0 0 0 4 0" stroke="#0B1E3A" stroke-width="1.7"/></svg>
+      </div>
+    </div>
+    <!-- hero -->
+    <div style="margin:0 20px;height:200px;border-radius:18px;overflow:hidden;position:relative;background:linear-gradient(160deg,#1E4A2E,#0E3A2B 55%,#061B13);">
+      <div style="position:absolute;inset:0;background:
+          radial-gradient(120% 80% at 20% 10%, rgba(158,215,168,.18), transparent 45%),
+          linear-gradient(180deg, rgba(8,18,38,.55) 0%, rgba(8,18,38,.05) 42%, rgba(6,14,30,.92) 100%);"></div>
+      <div style="position:absolute;top:16px;left:16px;width:36px;height:36px;border-radius:50%;background:rgba(14,58,43,.78);border:1px solid rgba(245,240,232,.35);display:flex;align-items:center;justify-content:center;">
+        <svg viewBox="25 67 1448 1366" width="19" height="19"><path fill="#FBF8F2" d="M 239.351562 1011.988281 C 204.101562 968.167969 175.519531 920.53125 154.558594 869.085938 C 125.980469 799.539062 110.734375 724.277344 110.734375 647.105469 C 110.734375 487.054688 175.519531 342.246094 280.316406 237.449219 C 385.113281 132.652344 529.921875 67.867188 689.976562 67.867188 C 749.042969 67.867188 808.109375 77.394531 865.273438 95.496094 C 921.480469 113.597656 975.785156 140.273438 1024.371094 174.570312 L 967.210938 256.5 C 926.246094 227.921875 882.421875 206.007812 835.738281 190.765625 C 789.054688 176.476562 740.46875 168.855469 690.929688 168.855469 C 558.503906 168.855469 438.464844 222.203125 351.769531 308.898438 C 265.074219 395.59375 211.722656 515.636719 211.722656 648.058594 C 211.722656 711.890625 224.105469 774.769531 247.925781 831.929688 C 263.167969 867.179688 282.222656 901.476562 305.085938 932.917969 L 241.253906 1011.988281 Z M 1263.5 722.371094 C 1245.398438 863.371094 1176.804688 987.21875 1077.722656 1076.773438 C 990.074219 1155.847656 879.5625 1208.246094 757.617188 1222.535156 L 739.515625 1274.933594 L 689.023438 1423.554688 C 654.726562 1322.570312 619.476562 1224.441406 585.179688 1124.410156 C 752.855469 1124.410156 866.226562 1133.933594 1011.035156 1003.414062 C 1090.109375 931.964844 1145.363281 833.835938 1163.464844 722.371094 Z M 1032.945312 680.453125 L 756.664062 1022.46875 C 729.035156 1056.765625 690.929688 1074.867188 647.105469 1074.867188 L 587.085938 1074.867188 L 863.367188 732.851562 C 890.996094 698.554688 929.101562 680.453125 972.925781 680.453125 Z M 1235.871094 541.359375 C 1221.582031 511.824219 1201.574219 487.054688 1176.804688 468 C 1143.460938 442.277344 1102.492188 427.988281 1058.667969 429.890625 C 1020.5625 431.796875 989.121094 441.324219 960.542969 458.472656 C 931.007812 476.574219 904.332031 503.25 877.65625 537.546875 L 217.4375 1354.007812 C 175.519531 1405.453125 118.359375 1433.082031 52.621094 1433.082031 L 25.945312 1433.082031 L 799.535156 475.621094 C 832.878906 432.75 868.128906 398.453125 908.144531 373.683594 C 950.0625 347.960938 997.695312 332.71875 1053.90625 330.8125 C 1121.546875 327.953125 1185.378906 350.820312 1235.871094 389.878906 C 1260.640625 408.933594 1282.554688 431.796875 1300.65625 457.519531 L 1472.140625 495.628906 L 1334.953125 522.304688 L 1234.917969 542.3125 Z"/></svg>
+      </div>
+      <div style="position:absolute;left:18px;right:18px;bottom:16px;">
+        <span class="mono" style="display:inline-block;background:rgba(8,18,38,.78);border-radius:4px;padding:3px 8px;font-size:12px;font-weight:700;letter-spacing:1.6px;color:var(--bone);">TODAY · WED, AUG 6</span>
+        <div class="disp" style="font-size:26px;color:var(--bone);margin-top:9px;text-shadow:0 2px 12px rgba(0,0,0,.4);">Harmony Landing</div>
+        <div style="font-size:14px;color:rgba(245,240,232,.95);margin-top:3px;">Prospect, KY · Par 72 · 7,138 yds</div>
+      </div>
+    </div>
+    <!-- start round CTA -->
+    <div style="margin:12px 20px 0;min-height:74px;border-radius:18px;background:var(--pine);display:flex;align-items:center;justify-content:space-between;padding:14px 16px;box-shadow:0 10px 22px -14px rgba(14,58,43,.9);">
+      <div>
+        <div class="disp" style="font-size:24px;color:var(--bone);">Start Round</div>
+        <div style="font-size:14px;color:rgba(245,240,232,.85);font-weight:500;margin-top:2px;">Best Ball · $15/player</div>
+      </div>
+      <div style="width:48px;height:48px;border-radius:50%;background:rgba(245,240,232,.18);display:flex;align-items:center;justify-content:center;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#F5F0E8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    </div>
+    <!-- foursome -->
+    <div style="margin:12px 20px 0;background:var(--boneRaised);border:1px solid var(--rule);border-radius:16px;padding:16px;" class="cardshadow">
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <div class="disp" style="font-size:16px;color:var(--navy);">Your Foursome</div>
+        <span class="pill" style="background:var(--pine);padding:5px 10px;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M4 12v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-6M16 6l-4-4-4 4M12 2v13" stroke="#F5F0E8" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span class="disp" style="font-size:13px;color:var(--bone);letter-spacing:.06em;">Invite</span></span>
+      </div>
+      <div style="display:flex;align-items:center;gap:0;margin-top:14px;">
+        <div class="avatar" style="width:42px;height:42px;background:#3F6C4E;font-size:15px;border:2px solid var(--boneRaised);">EM</div>
+        <div class="avatar" style="width:42px;height:42px;background:#7A6A9E;font-size:15px;border:2px solid var(--boneRaised);margin-left:-10px;">DK</div>
+        <div class="avatar" style="width:42px;height:42px;background:#4E6E8E;font-size:15px;border:2px solid var(--boneRaised);margin-left:-10px;">MR</div>
+        <div class="avatar" style="width:42px;height:42px;background:#8E6E4E;font-size:15px;border:2px solid var(--boneRaised);margin-left:-10px;">TS</div>
+        <span class="mono" style="margin-left:auto;font-size:13px;font-weight:700;letter-spacing:1.4px;color:var(--ink3);">4 MEMBERS</span>
+      </div>
+    </div>
+    <!-- section -->
+    <div class="pad" style="margin-top:20px;display:flex;align-items:center;gap:8px;">
+      <div class="lbar"></div><div class="disp" style="font-size:18px;">Today’s Conditions</div>
+    </div>
+    <div class="pad" style="display:flex;gap:8px;margin-top:10px;">
+      <div style="flex:1;background:var(--boneRaised);border-radius:12px;padding:14px;">
+        <div class="lbl" style="font-size:11px;letter-spacing:1.6px;color:var(--ink3);">TEMP</div>
+        <div class="disp mono" style="font-size:22px;color:var(--ink);margin-top:4px;">72°</div>
+        <div style="font-size:13px;color:var(--ink3);">Partly cloudy</div>
+      </div>
+      <div style="flex:1;background:var(--boneRaised);border-radius:12px;padding:14px;">
+        <div class="lbl" style="font-size:11px;letter-spacing:1.6px;color:var(--ink3);">WIND</div>
+        <div class="disp mono" style="font-size:22px;color:var(--ink);margin-top:4px;">6<span style="font-size:14px;"> MPH</span></div>
+        <div style="font-size:13px;color:var(--ink3);">WSW · light</div>
+      </div>
+    </div>
+  </div>
+  <div class="tabbar">
+    <div class="tab active"><div class="strip"></div><svg viewBox="0 0 24 24" fill="none"><path d="M4 11l8-7 8 7M6 10v9h12v-9" stroke="#0E3A2B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="lab">Home</span></div>
+    <div class="tab"><div class="strip"></div><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="#5C6D6A" stroke-width="1.8"/><path d="M12 4v8l5 3" stroke="#5C6D6A" stroke-width="1.8" stroke-linecap="round"/></svg><span class="lab">Scores</span></div>
+    <div class="tab"><div class="strip"></div><svg viewBox="0 0 24 24" fill="none"><rect x="4" y="5" width="16" height="16" rx="2" stroke="#5C6D6A" stroke-width="1.8"/><path d="M4 9h16M8 3v4M16 3v4" stroke="#5C6D6A" stroke-width="1.8" stroke-linecap="round"/></svg><span class="lab">Season</span></div>
+    <div class="tab"><div class="strip"></div><svg viewBox="0 0 24 24" fill="none"><path d="M5 20V10M12 20V4M19 20v-7" stroke="#5C6D6A" stroke-width="1.9" stroke-linecap="round"/></svg><span class="lab">Stats</span></div>
+    <div class="tab"><div class="strip"></div><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3.4" stroke="#5C6D6A" stroke-width="1.8"/><path d="M5.5 20a6.5 6.5 0 0 1 13 0" stroke="#5C6D6A" stroke-width="1.8"/></svg><span class="lab">Profile</span></div>
+  </div>
+</div></div>
 
-      <div class="navycard" style="height:212px; display:flex; flex-direction:column; justify-content:flex-end;">
-        <div class="fairway"><div class="sky"></div><div class="grass"></div><div class="flag"></div></div>
-        <div style="position:relative; z-index:2; display:flex; align-items:center; justify-content:space-between;">
-          <div>
-            <span class="pill light" style="margin-bottom:10px;">● Round in progress · Hole 7</span>
-            <div style="font-family:'DM Serif Display',serif; font-size:26px; margin-top:10px;">Harmony Landing</div>
-            <div style="opacity:.8; font-size:13px; margin-top:2px;">12 playing · front nine posted</div>
-          </div>
+<!-- ===================== 2 · SCORE ENTRY ===================== -->
+<div class="device" id="s2"><div class="screen" style="background:var(--bone);">
+  <div class="island"></div>
+  <div style="background:var(--navy);">
+    <div class="statusbar dark"><span>9:41</span><span class="sb">
+      <svg width="18" height="12" viewBox="0 0 18 12"><rect x="0" y="7" width="3" height="5" rx="1" fill="#F5F2EB"/><rect x="5" y="4" width="3" height="8" rx="1" fill="#F5F2EB"/><rect x="10" y="1.5" width="3" height="10.5" rx="1" fill="#F5F2EB"/><rect x="15" y="0" width="3" height="12" rx="1" fill="#F5F2EB" opacity=".4"/></svg>
+      <svg width="26" height="12" viewBox="0 0 26 12"><rect x="1" y="1" width="21" height="10" rx="3" stroke="#F5F2EB" stroke-opacity=".6" fill="none"/><rect x="3" y="3" width="16" height="6" rx="1.5" fill="#F5F2EB"/></svg>
+    </span></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:0 20px 16px;">
+      <div>
+        <div class="disp" style="font-size:26px;color:var(--boneRaised);letter-spacing:.06em;">Scorecard</div>
+        <div style="font-size:15px;color:var(--inkNavyMuted);">Harmony Landing</div>
+      </div>
+      <div style="display:flex;gap:10px;">
+        <div style="width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.08);border:.5px solid #7890A4;display:flex;align-items:center;justify-content:center;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#A8BACA" stroke-width="1.7"/><path d="M12 11v5M12 8h.01" stroke="#A8BACA" stroke-width="1.9" stroke-linecap="round"/></svg>
+        </div>
+        <div class="pill" style="background:rgba(255,255,255,.08);padding:0 14px;height:44px;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="#F5F2EB" stroke-width="2" stroke-linecap="round"/></svg>
+          <span class="lbl" style="color:var(--boneRaised);">Exit</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="body" style="display:flex;flex-direction:column;">
+    <!-- player toggle -->
+    <div style="display:flex;gap:8px;padding:14px 20px 6px;">
+      <div class="pill" style="background:var(--pine);padding:6px 14px 6px 6px;height:44px;">
+        <div class="avatar" style="width:32px;height:32px;background:#3F6C4E;font-size:12px;">EM</div>
+        <span style="font-family:'Inter';font-weight:700;color:var(--boneRaised);font-size:15px;">Elle</span></div>
+      <div class="pill" style="background:var(--boneRaised);border:1.5px solid var(--ink3);padding:6px 16px;height:44px;">
+        <span style="font-weight:500;color:var(--ink2);font-size:15px;">Dave</span></div>
+      <div class="pill" style="background:var(--boneRaised);border:1.5px solid var(--ink3);padding:6px 16px;height:44px;">
+        <span style="font-weight:500;color:var(--ink2);font-size:15px;">Marco</span></div>
+    </div>
+    <!-- hero -->
+    <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6px 0;">
+      <div class="disp" style="font-size:32px;color:var(--ink);letter-spacing:.06em;">Hole 7</div>
+      <div class="mono" style="font-size:14px;color:var(--ink3);margin-top:4px;letter-spacing:.02em;">PAR 4 · 385 YDS · HCP 5</div>
+      <div style="display:flex;align-items:center;gap:24px;margin-top:14px;">
+        <div style="width:72px;height:72px;border-radius:50%;background:var(--pine);display:flex;align-items:center;justify-content:center;">
+          <span class="disp" style="font-size:40px;color:var(--boneRaised);line-height:1;">−</span></div>
+        <div class="disp mono" style="font-size:96px;color:var(--birdie);line-height:.9;">3</div>
+        <div style="width:72px;height:72px;border-radius:50%;background:var(--pine);display:flex;align-items:center;justify-content:center;">
+          <span class="disp" style="font-size:40px;color:var(--boneRaised);line-height:1;">+</span></div>
+      </div>
+      <div class="lbl" style="color:var(--birdie);margin-top:14px;">Birdie</div>
+      <div class="lbl" style="color:var(--ink3);margin-top:8px;font-weight:700;">Tap − to clear</div>
+    </div>
+    <!-- hole navigator -->
+    <div style="display:flex;gap:8px;padding:10px 20px;overflow:hidden;">
+      <div class="holetile" style="background:var(--birdie);">4</div>
+      <div class="holetile" style="background:var(--ink2);color:#F5F0E8;">5</div>
+      <div class="holetile" style="background:var(--eagle);">2</div>
+      <div class="holetile" style="background:var(--bogey);color:#0B1E3A;">5</div>
+      <div class="holetile" style="background:var(--birdie);">3</div>
+      <div class="holetile" style="background:var(--ink2);color:#F5F0E8;">4</div>
+      <div class="holetile" style="background:var(--pine);border:2px solid var(--brass);color:var(--boneRaised);">7</div>
+      <div class="holetile" style="background:var(--boneRaised);border:1px solid var(--rule);color:var(--ink3);">8</div>
+    </div>
+    <!-- summary footer -->
+    <div style="padding:12px 20px 18px;display:flex;">
+      <div class="seg"><div class="lbl" style="font-size:11px;color:var(--ink3);">Front</div><div class="disp mono" style="font-size:18px;color:var(--ink2);">34</div></div>
+      <div class="seg" style="border-left:1px solid var(--ruleMid);"><div class="lbl" style="font-size:11px;color:var(--ink3);">Back</div><div class="disp mono" style="font-size:18px;color:var(--ink2);">—</div></div>
+      <div class="seg" style="border-left:1px solid var(--ruleMid);"><div class="lbl" style="font-size:11px;color:var(--ink3);">Gross</div><div class="disp mono" style="font-size:18px;color:var(--ink2);">34</div></div>
+      <div class="seg" style="border-left:1px solid var(--ruleMid);"><div class="lbl" style="font-size:11px;color:var(--ink);">Net</div><div class="disp mono" style="font-size:28px;color:var(--birdie);">−2</div><div style="font-size:12px;color:var(--ink3);font-weight:500;">−2 THRU 7</div></div>
+    </div>
+  </div>
+</div></div>
+
+<!-- ===================== 3 · CHECK-IN ===================== -->
+<div class="device" id="s3"><div class="screen">
+  <div class="island"></div>
+  <div style="background:var(--navy);">
+    <div class="statusbar dark"><span>7:08</span><span class="sb">
+      <svg width="26" height="12" viewBox="0 0 26 12"><rect x="1" y="1" width="21" height="10" rx="3" stroke="#F5F2EB" stroke-opacity=".6" fill="none"/><rect x="3" y="3" width="16" height="6" rx="1.5" fill="#F5F2EB"/></svg>
+    </span></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:0 16px 14px;">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="#F5F0E8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div class="disp" style="font-size:18px;color:var(--bone);letter-spacing:.1em;">Who’s Playing</div>
+      <span class="pill" style="background:var(--pine);padding:5px 12px;"><span class="lbl" style="color:var(--bone);">12</span></span>
+    </div>
+  </div>
+  <div class="body" style="display:flex;flex-direction:column;">
+    <div style="flex:1;overflow:hidden;padding-top:6px;">
+      <!-- rows -->
+      <div class="chkrow"><div class="avatar" style="width:40px;height:40px;background:#3F6C4E;font-size:14px;">EM</div><div style="flex:1;"><div style="font-weight:600;color:var(--ink);font-size:16px;">Elle Morgan</div><span class="pill" style="background:var(--pine);border-radius:4px;padding:1px 7px;margin-top:3px;"><span class="eyebrow" style="color:var(--bone);">Captain</span></span></div><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v5c0 4.5-3 7.6-7 9-4-1.4-7-4.5-7-9V6l7-3z" stroke="#0E3A2B" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="#0E3A2B" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="chkrow"><div class="avatar" style="width:40px;height:40px;background:#7A6A9E;font-size:14px;">DK</div><div style="flex:1;"><div style="font-weight:600;color:var(--ink);font-size:16px;">Dave Karras</div><div class="mono" style="font-size:13px;color:var(--ink3);">HCP 6</div></div><div class="chk on"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5 9-10" stroke="#F5F0E8" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+      <div class="chkrow"><div class="avatar" style="width:40px;height:40px;background:#4E6E8E;font-size:14px;">MR</div><div style="flex:1;"><div style="font-weight:600;color:var(--ink);font-size:16px;">Marco Ruiz</div><div class="mono" style="font-size:13px;color:var(--ink3);">HCP 11</div></div><div class="chk on"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5 9-10" stroke="#F5F0E8" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+      <div class="chkrow"><div class="avatar" style="width:40px;height:40px;background:#8E6E4E;font-size:14px;">TS</div><div style="flex:1;"><div style="font-weight:600;color:var(--ink);font-size:16px;">Tom Sauer</div><div class="mono" style="font-size:13px;color:var(--ink3);">HCP 14 · guest</div></div><div class="chk on"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5 9-10" stroke="#F5F0E8" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+      <div class="chkrow" style="opacity:.5;"><div class="avatar" style="width:40px;height:40px;background:#9A968C;font-size:14px;">JL</div><div style="flex:1;"><div style="font-weight:600;color:var(--ink);font-size:16px;">Jim Lowe</div><div class="mono" style="font-size:13px;color:var(--ink3);">HCP 10</div></div><div class="chk off"></div></div>
+      <div class="chkrow" style="opacity:.5;"><div class="avatar" style="width:40px;height:40px;background:#9A968C;font-size:14px;">PW</div><div style="flex:1;"><div style="font-weight:600;color:var(--ink);font-size:16px;">Pete Weir</div><div class="mono" style="font-size:13px;color:var(--ink3);">HCP 18</div></div><div class="chk off"></div></div>
+    </div>
+    <!-- footer -->
+    <div style="padding:12px 20px 20px;border-top:1px solid var(--rule);background:var(--bone);">
+      <div style="text-align:center;font-size:14px;color:var(--ink3);margin-bottom:10px;">12 in · that’s three foursomes</div>
+      <div style="display:flex;gap:10px;">
+        <div style="flex:1;height:48px;border:1.5px solid var(--pine);border-radius:12px;display:flex;align-items:center;justify-content:center;"><span class="lbl" style="color:var(--pine);">Check all</span></div>
+        <div style="flex:1.4;height:56px;background:var(--pine);border-radius:18px;display:flex;align-items:center;justify-content:center;"><span class="disp" style="font-size:16px;letter-spacing:.1em;color:var(--bone);">Set Format</span></div>
+      </div>
+    </div>
+  </div>
+</div></div>
+
+<!-- ===================== 4 · LEADERBOARD ===================== -->
+<div class="device" id="s4"><div class="screen">
+  <div class="island"></div>
+  <div class="statusbar"><span>1:12</span><span class="sb">
+    <svg width="26" height="12" viewBox="0 0 26 12"><rect x="1" y="1" width="21" height="10" rx="3" stroke="#0B1E3A" stroke-opacity=".5" fill="none"/><rect x="3" y="3" width="16" height="6" rx="1.5" fill="#0B1E3A"/></svg>
+  </span></div>
+  <div class="body">
+    <div class="pad" style="display:flex;align-items:center;justify-content:space-between;padding-top:8px;">
+      <div class="disp" style="font-size:28px;color:var(--pine);">Leaderboard</div>
+      <span class="pill" style="gap:7px;"><span style="width:9px;height:9px;border-radius:50%;background:var(--birdie);"></span><span class="lbl" style="color:var(--pine);">Live</span></span>
+    </div>
+    <!-- segmented -->
+    <div class="pad" style="margin-top:14px;">
+      <div style="background:var(--boneSunk);border-radius:26px;padding:4px;display:flex;">
+        <div style="flex:1;height:40px;border-radius:22px;background:var(--pine);display:flex;align-items:center;justify-content:center;"><span class="lbl" style="color:var(--boneRaised);">Individual</span></div>
+        <div style="flex:1;display:flex;align-items:center;justify-content:center;"><span class="lbl" style="color:var(--ink2);font-weight:500;">Teams</span></div>
+        <div style="flex:1;display:flex;align-items:center;justify-content:center;"><span class="lbl" style="color:var(--ink2);font-weight:500;">All</span></div>
+      </div>
+    </div>
+    <div class="pad" style="display:flex;margin-top:16px;padding-bottom:6px;">
+      <span class="lbl" style="color:var(--ink3);flex:1;">Player</span>
+      <span class="lbl" style="color:var(--ink3);width:46px;text-align:center;">Thru</span>
+      <span class="lbl" style="color:var(--ink3);width:48px;text-align:right;">Net</span>
+    </div>
+    <!-- rows -->
+    <div class="lbcard" style="border-left:4px solid var(--pine);">
+      <div class="rankc" style="width:44px;height:44px;border:2px solid var(--pine);background:var(--boneRaised);"><span class="disp" style="font-size:22px;">1</span></div>
+      <div class="avatar" style="width:40px;height:40px;background:#7A6A9E;font-size:14px;">DK</div>
+      <div style="flex:1;"><div class="disp" style="font-size:17px;color:var(--ink);white-space:nowrap;">Dave Karras</div><div style="font-size:13px;color:var(--ink3);">HCP 6 · <span style="color:var(--pine);font-weight:700;">2 skins</span></div></div>
+      <div style="width:46px;text-align:center;"><div class="mono" style="font-size:13px;color:var(--ink3);">THRU 7</div></div>
+      <div style="width:48px;text-align:right;"><div class="disp mono" style="font-size:26px;color:var(--eagle);">−4</div></div>
+    </div>
+    <div class="lbcard">
+      <div class="rankc" style="width:40px;height:40px;background:var(--boneSunk);border:1px solid var(--ruleMid);"><span class="disp" style="font-size:22px;">2</span></div>
+      <div class="avatar" style="width:40px;height:40px;background:#4E6E8E;font-size:14px;">MR</div>
+      <div style="flex:1;"><div style="font-family:'Inter';font-weight:700;font-size:16px;color:var(--ink);white-space:nowrap;">Marco Ruiz</div><span class="pill" style="background:var(--birdie);border-radius:6px;padding:2px 8px;margin-top:2px;"><span class="eyebrow" style="color:var(--boneRaised);letter-spacing:1.4px;">Beagle · 7</span></span></div>
+      <div style="width:46px;text-align:center;"><div class="mono" style="font-size:13px;color:var(--ink3);">THRU 7</div></div>
+      <div style="width:48px;text-align:right;"><div class="disp mono" style="font-size:26px;color:var(--birdie);">−3</div></div>
+    </div>
+    <div class="lbcard">
+      <div class="rankc" style="width:40px;height:40px;background:var(--pine);border:1px solid var(--pine);"><span class="disp" style="font-size:22px;color:var(--boneRaised);">3</span></div>
+      <div class="avatar" style="width:40px;height:40px;background:#3F6C4E;font-size:14px;">EM</div>
+      <div style="flex:1;"><div style="font-family:'Inter';font-weight:700;font-size:16px;color:var(--ink);white-space:nowrap;">Elle Morgan</div><div style="font-size:13px;color:var(--ink3);">HCP 8 · you</div></div>
+      <div style="width:46px;text-align:center;"><div class="mono" style="font-size:13px;color:var(--ink3);">THRU 7</div></div>
+      <div style="width:48px;text-align:right;"><div class="disp mono" style="font-size:26px;color:var(--ink);">−1</div></div>
+    </div>
+    <div class="lbcard">
+      <div class="rankc" style="width:40px;height:40px;background:var(--boneSunk);border:1px solid var(--ruleMid);"><span class="disp" style="font-size:22px;">4</span></div>
+      <div class="avatar" style="width:40px;height:40px;background:#8E6E4E;font-size:14px;">TS</div>
+      <div style="flex:1;"><div style="font-family:'Inter';font-weight:700;font-size:16px;color:var(--ink);white-space:nowrap;">Tom Sauer</div><div style="font-size:13px;color:var(--ink3);">HCP 14</div></div>
+      <div style="width:46px;text-align:center;"><div class="mono" style="font-size:13px;color:var(--ink3);">THRU 7</div></div>
+      <div style="width:48px;text-align:right;"><div class="disp mono" style="font-size:26px;color:var(--bogey);">+2</div></div>
+    </div>
+  </div>
+  <div class="tabbar">
+    <div class="tab"><div class="strip"></div><svg viewBox="0 0 24 24" fill="none"><path d="M4 11l8-7 8 7M6 10v9h12v-9" stroke="#5C6D6A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="lab">Home</span></div>
+    <div class="tab active"><div class="strip"></div><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="#0E3A2B" stroke-width="1.8"/><path d="M12 4v8l5 3" stroke="#0E3A2B" stroke-width="1.8" stroke-linecap="round"/></svg><span class="lab">Scores</span></div>
+    <div class="tab"><div class="strip"></div><svg viewBox="0 0 24 24" fill="none"><rect x="4" y="5" width="16" height="16" rx="2" stroke="#5C6D6A" stroke-width="1.8"/><path d="M4 9h16M8 3v4M16 3v4" stroke="#5C6D6A" stroke-width="1.8" stroke-linecap="round"/></svg><span class="lab">Season</span></div>
+    <div class="tab"><div class="strip"></div><svg viewBox="0 0 24 24" fill="none"><path d="M5 20V10M12 20V4M19 20v-7" stroke="#5C6D6A" stroke-width="1.9" stroke-linecap="round"/></svg><span class="lab">Stats</span></div>
+    <div class="tab"><div class="strip"></div><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3.4" stroke="#5C6D6A" stroke-width="1.8"/><path d="M5.5 20a6.5 6.5 0 0 1 13 0" stroke="#5C6D6A" stroke-width="1.8"/></svg><span class="lab">Profile</span></div>
+  </div>
+</div></div>
+
+<!-- ===================== 5 · SHARE CARD (beagle) ===================== -->
+<div class="device" id="s5"><div class="screen">
+  <div class="island"></div>
+  <div class="statusbar"><span>2:04</span><span class="sb">
+    <svg width="26" height="12" viewBox="0 0 26 12"><rect x="1" y="1" width="21" height="10" rx="3" stroke="#0B1E3A" stroke-opacity=".5" fill="none"/><rect x="3" y="3" width="16" height="6" rx="1.5" fill="#0B1E3A"/></svg>
+  </span></div>
+  <div class="body" style="display:flex;flex-direction:column;">
+    <div class="pad" style="display:flex;align-items:center;justify-content:space-between;padding-top:6px;">
+      <div class="disp" style="font-size:26px;color:var(--ink);">Share</div>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="#5C6D6A" stroke-width="2" stroke-linecap="round"/></svg>
+    </div>
+    <!-- the exportable share card -->
+    <div style="margin:14px 20px 0;background:#0A4D20;border-radius:14px;padding:22px 18px;text-align:center;position:relative;overflow:hidden;box-shadow:0 20px 40px -20px rgba(6,27,19,.9);">
+      <div style="position:absolute;inset:0;background:radial-gradient(110% 70% at 80% 0%, rgba(184,137,58,.18), transparent 55%);"></div>
+      <div style="position:relative;">
+        <div class="avatar" style="width:64px;height:64px;margin:0 auto;background:#9ED7A8;color:#0A4D20;font-size:26px;font-family:'Barlow Condensed';font-weight:700;border:3px solid #B8893A;">M</div>
+        <div class="disp" style="font-size:30px;color:#FBF8F2;margin-top:12px;">Marco Ruiz</div>
+        <div style="font-size:14px;color:#E0EEE6;margin-top:2px;">Hole #7 · Par 4</div>
+        <div style="font-size:12px;color:#C4D8CA;margin-top:2px;">5 strokes · net eagle · skin won</div>
+        <span class="pill" style="background:#B8893A;border-radius:5px;padding:5px 12px;margin-top:14px;"><span class="lbl" style="color:#061B13;font-size:12px;">Beagle</span></span>
+        <div style="height:1px;background:rgba(158,215,168,.28);margin:16px 24px;"></div>
+        <div style="font-size:11px;color:#E0EEE6;">Marco’s 1st beagle this season</div>
+        <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-top:12px;">
+          <span class="eyebrow" style="color:#C4D8CA;letter-spacing:1.4px;">The Mariners · Harmony Landing</span>
+          <svg viewBox="230 1190 1020 100" width="82" height="8"><g fill="#FBF8F2"><g transform="translate(256.254448, 1279.896662)"><path d="M 63.59375 -68.28125 L 27.234375 -68.28125 L 27.234375 -50.15625 L 61.078125 -50.15625 L 61.078125 -33.359375 L 27.234375 -33.359375 L 27.234375 0 L 8.046875 0 L 8.046875 -85.203125 L 63.59375 -85.203125 Z"/></g><g transform="translate(370.374463, 1279.896662)"><path d="M 47.28125 1.203125 C 38.320312 1.273438 30.640625 -0.363281 24.234375 -3.71875 C 17.835938 -7.082031 12.914062 -11.921875 9.46875 -18.234375 C 6.03125 -24.554688 4.3125 -32.160156 4.3125 -41.046875 C 4.3125 -49.921875 6.128906 -57.773438 9.765625 -64.609375 C 13.410156 -71.453125 18.550781 -76.796875 25.1875 -80.640625 C 31.832031 -84.484375 39.71875 -86.40625 48.84375 -86.40625 C 56.914062 -86.40625 63.992188 -84.644531 70.078125 -81.125 C 76.160156 -77.601562 80.898438 -72.703125 84.296875 -66.421875 C 87.703125 -60.140625 89.40625 -52.757812 89.40625 -44.28125 C 89.40625 -35.15625 87.601562 -27.191406 84 -20.390625 C 80.394531 -13.597656 75.410156 -8.320312 69.046875 -4.5625 C 62.691406 -0.800781 55.4375 1.117188 47.28125 1.203125 Z M 46.5625 -16.203125 C 53.363281 -16.203125 58.882812 -18.660156 63.125 -23.578125 C 67.363281 -28.492188 69.484375 -35.316406 69.484375 -44.046875 C 69.484375 -51.640625 67.5625 -57.695312 63.71875 -62.21875 C 59.875 -66.738281 54.710938 -69 48.234375 -69 C 43.515625 -69 39.351562 -67.835938 35.75 -65.515625 C 32.15625 -63.203125 29.335938 -59.984375 27.296875 -55.859375 C 25.253906 -51.742188 24.234375 -46.925781 24.234375 -41.40625 C 24.234375 -33.40625 26.210938 -27.203125 30.171875 -22.796875 C 34.140625 -18.398438 39.601562 -16.203125 46.5625 -16.203125 Z"/></g><g transform="translate(514.374496, 1279.896662)"><path d="M 63.84375 -85.203125 L 83.28125 -85.203125 L 83.515625 -39.125 C 83.515625 -31.039062 81.992188 -23.957031 78.953125 -17.875 C 75.921875 -11.800781 71.601562 -7.101562 66 -3.78125 C 60.394531 -0.457031 53.796875 1.203125 46.203125 1.203125 C 33.554688 1.203125 23.972656 -1.914062 17.453125 -8.15625 C 10.941406 -14.394531 7.6875 -23.71875 7.6875 -36.125 L 7.6875 -85.203125 L 27.234375 -85.203125 L 27.234375 -37.6875 C 27.234375 -30.082031 28.875 -24.597656 32.15625 -21.234375 C 35.4375 -17.878906 40.035156 -16.203125 45.953125 -16.203125 C 51.796875 -16.203125 56.296875 -18.140625 59.453125 -22.015625 C 62.617188 -25.898438 64.160156 -31.960938 64.078125 -40.203125 Z"/></g><g transform="translate(655.734514, 1279.896662)"><path d="M 79.078125 -18.359375 L 83.640625 -3.234375 C 81.878906 -1.878906 79.617188 -0.800781 76.859375 0 C 74.097656 0.800781 71.28125 1.203125 68.40625 1.203125 C 63.195312 1.203125 58.632812 0.144531 54.71875 -1.96875 C 50.800781 -4.09375 47.5625 -7.195312 45 -11.28125 L 34.796875 -27.59375 C 33.597656 -29.519531 32.414062 -30.863281 31.25 -31.625 C 30.09375 -32.382812 28.753906 -32.800781 27.234375 -32.875 L 27.234375 0 L 8.046875 0 L 8.046875 -85.203125 L 36 -85.203125 C 47.757812 -85.203125 56.578125 -82.84375 62.453125 -78.125 C 68.335938 -73.40625 71.28125 -66.882812 71.28125 -58.5625 C 71.28125 -52 69.257812 -46.632812 65.21875 -42.46875 C 61.175781 -38.3125 56 -35.59375 49.6875 -34.3125 C 52.320312 -33.039062 54.640625 -30.921875 56.640625 -27.953125 L 60.71875 -21.71875 C 63.28125 -17.875 66.640625 -15.953125 70.796875 -15.953125 C 72.316406 -15.953125 73.753906 -16.132812 75.109375 -16.5 C 76.472656 -16.863281 77.796875 -17.484375 79.078125 -18.359375 Z M 34.921875 -69.234375 L 27.234375 -69.234375 L 27.234375 -48.125 L 34.796875 -48.125 C 40.796875 -48.125 45.113281 -48.984375 47.75 -50.703125 C 50.394531 -52.421875 51.71875 -55.117188 51.71875 -58.796875 C 51.71875 -62.472656 50.238281 -65.128906 47.28125 -66.765625 C 44.320312 -68.410156 40.203125 -69.234375 34.921875 -69.234375 Z"/></g><g transform="translate(784.734548, 1279.896662)"><path d="M 83.15625 -16.6875 C 79.632812 -10.925781 74.796875 -6.503906 68.640625 -3.421875 C 62.484375 -0.335938 55.644531 1.203125 48.125 1.203125 C 38.914062 1.203125 31.050781 -0.472656 24.53125 -3.828125 C 18.019531 -7.191406 13.019531 -12.015625 9.53125 -18.296875 C 6.050781 -24.578125 4.3125 -32.117188 4.3125 -40.921875 C 4.3125 -49.960938 6.234375 -57.878906 10.078125 -64.671875 C 13.921875 -71.472656 19.257812 -76.796875 26.09375 -80.640625 C 32.9375 -84.484375 40.835938 -86.40625 49.796875 -86.40625 C 57.640625 -86.40625 64.257812 -84.960938 69.65625 -82.078125 C 75.0625 -79.203125 79.601562 -74.84375 83.28125 -69 L 68.28125 -58.3125 C 66.363281 -62 63.722656 -64.679688 60.359375 -66.359375 C 56.992188 -68.035156 53.394531 -68.875 49.5625 -68.875 C 44.519531 -68.875 40.117188 -67.710938 36.359375 -65.390625 C 32.597656 -63.078125 29.65625 -59.835938 27.53125 -55.671875 C 25.414062 -51.515625 24.359375 -46.71875 24.359375 -41.28125 C 24.359375 -33.363281 26.4375 -27.203125 30.59375 -22.796875 C 34.757812 -18.398438 40.640625 -16.203125 48.234375 -16.203125 C 52.316406 -16.203125 56.175781 -17.179688 59.8125 -19.140625 C 63.457031 -21.097656 66.398438 -24.078125 68.640625 -28.078125 Z"/></g><g transform="translate(916.614559, 1279.896662)"><path d="M -2.875 0 L 34.078125 -85.203125 L 50.515625 -85.203125 L 86.046875 0 L 66.125 0 L 59.28125 -17.40625 L 24.125 -17.40625 L 17.046875 0 Z M 30.84375 -33.71875 L 52.796875 -33.71875 L 42 -61.203125 Z"/></g><g transform="translate(1050.534592, 1279.896662)"><path d="M 35.640625 1.078125 C 25.160156 1.078125 17.039062 -1.160156 11.28125 -5.640625 C 5.519531 -10.117188 2.238281 -16.71875 1.4375 -25.4375 L 19.796875 -28.078125 C 20.273438 -23.921875 21.914062 -20.738281 24.71875 -18.53125 C 27.519531 -16.332031 31.398438 -15.234375 36.359375 -15.234375 C 40.597656 -15.234375 43.859375 -15.972656 46.140625 -17.453125 C 48.421875 -18.941406 49.5625 -21.046875 49.5625 -23.765625 C 49.5625 -26.242188 48.359375 -28.203125 45.953125 -29.640625 C 43.554688 -31.078125 39.597656 -32.4375 34.078125 -33.71875 C 28.160156 -35.15625 23.160156 -36.894531 19.078125 -38.9375 C 14.992188 -40.976562 11.910156 -43.640625 9.828125 -46.921875 C 7.753906 -50.203125 6.71875 -54.363281 6.71875 -59.40625 C 6.71875 -64.675781 8.078125 -69.351562 10.796875 -73.4375 C 13.515625 -77.519531 17.3125 -80.703125 22.1875 -82.984375 C 27.070312 -85.265625 32.71875 -86.40625 39.125 -86.40625 C 47.4375 -86.40625 54.234375 -84.285156 59.515625 -80.046875 C 64.796875 -75.804688 67.835938 -70.003906 68.640625 -62.640625 L 51.484375 -59.765625 C 50.835938 -63.046875 49.351562 -65.582031 47.03125 -67.375 C 44.71875 -69.175781 41.800781 -70.078125 38.28125 -70.078125 C 34.757812 -70.078125 31.914062 -69.253906 29.75 -67.609375 C 27.59375 -65.972656 26.515625 -63.753906 26.515625 -60.953125 C 26.515625 -58.398438 27.554688 -56.34375 29.640625 -54.78125 C 31.722656 -53.21875 35.523438 -51.757812 41.046875 -50.40625 C 46.878906 -48.957031 51.914062 -47.332031 56.15625 -45.53125 C 60.394531 -43.738281 63.65625 -41.28125 65.9375 -38.15625 C 68.21875 -35.039062 69.359375 -30.800781 69.359375 -25.4375 C 69.359375 -20.238281 67.957031 -15.640625 65.15625 -11.640625 C 62.351562 -7.640625 58.410156 -4.519531 53.328125 -2.28125 C 48.253906 -0.0390625 42.359375 1.078125 35.640625 1.078125 Z"/></g><g transform="translate(1172.694677, 1279.896662)"><path d="M 73.6875 -85.203125 L 71.15625 -68.046875 L 45.359375 -68.046875 L 45.359375 0 L 25.6875 0 L 25.6875 -68.046875 L -1.3125 -68.046875 L -1.3125 -85.203125 Z"/></g></g></svg>
         </div>
       </div>
-
-      <div class="statgrid" style="margin-top:14px;">
-        <div class="card stat"><div class="big" style="color:var(--birdie);">−2</div><div class="lbl">Your net · thru 6</div></div>
-        <div class="card stat"><div class="big">$45<span style="font-size:18px;">.00</span></div><div class="lbl">Skins pool live</div></div>
-      </div>
-
-      <div class="card" style="margin-top:14px; display:flex; align-items:center; gap:14px;">
-        <div class="avatar" style="background:linear-gradient(135deg,#1B7A3D,#0B1F14);">MB</div>
-        <div style="flex:1;"><div style="font-weight:700; color:var(--ink);">Marco birdied 7</div><div class="muted" style="font-size:13px;">Standings moved — you’re T-2nd</div></div>
-        <span class="pill birdie">▲ live</span>
-      </div>
     </div>
-    <div class="tabbar">
-      <div class="tab active">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11Z" stroke="#1B7A3D" stroke-width="1.8"/><circle cx="12" cy="10" r="2.4" stroke="#1B7A3D" stroke-width="1.8"/></svg><span>Home</span></div>
-      <div class="tab">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M6 4h12v3a6 6 0 0 1-12 0V4Z" stroke="#B6B9C3" stroke-width="1.8"/><path d="M18 5h2.5a2.5 2.5 0 0 1-2.5 2.5M6 5H3.5A2.5 2.5 0 0 0 6 7.5M10 15h4v3h-4z" stroke="#B6B9C3" stroke-width="1.8"/></svg><span>Standings</span></div>
-      <div class="tab">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M6 9a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6Z" stroke="#B6B9C3" stroke-width="1.8"/><path d="M10 19a2 2 0 0 0 4 0" stroke="#B6B9C3" stroke-width="1.8"/></svg><span>Alerts</span></div>
-      <div class="tab">
-        <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3.4" stroke="#B6B9C3" stroke-width="1.8"/><path d="M5.5 20a6.5 6.5 0 0 1 13 0" stroke="#B6B9C3" stroke-width="1.8"/></svg><span>Profile</span></div>
+    <!-- share actions -->
+    <div style="padding:16px 20px 0;">
+      <div style="height:56px;background:var(--pine);border-radius:18px;display:flex;align-items:center;justify-content:center;gap:9px;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7M16 6l-4-4-4 4M12 2v13" stroke="#F5F0E8" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span class="disp" style="font-size:16px;letter-spacing:.1em;color:var(--bone);">Share to Group Chat</span></div>
+      <div style="text-align:center;margin-top:12px;"><span class="mono" style="font-size:12px;color:var(--ink3);letter-spacing:1px;">fourcast-app.com</span></div>
     </div>
-  </div></div>
+  </div>
+</div></div>
 
-  <!-- ================= SCREEN 2 — ABOUT: captain dashboard ================= -->
-  <div class="device" id="s2"><div class="screen">
-    <div class="island"></div>
-    <div class="statusbar"><span>7:08</span><span class="sb-icons">
-      <svg width="18" height="12" viewBox="0 0 18 12" fill="none"><rect x="0" y="7" width="3" height="5" rx="1" fill="#282E34"/><rect x="5" y="4" width="3" height="8" rx="1" fill="#282E34"/><rect x="10" y="1.5" width="3" height="10.5" rx="1" fill="#282E34"/><rect x="15" y="0" width="3" height="12" rx="1" fill="#282E34" opacity=".35"/></svg>
-      <svg width="26" height="12" viewBox="0 0 26 12" fill="none"><rect x="1" y="1" width="21" height="10" rx="3" stroke="#282E34" stroke-opacity=".5"/><rect x="3" y="3" width="16" height="6" rx="1.5" fill="#282E34"/></svg>
+<!-- ===================== 6 · SETTLEMENT ===================== -->
+<div class="device" id="s6"><div class="screen">
+  <div class="island"></div>
+  <!-- hero photo + back bar -->
+  <div style="position:relative;height:150px;background:linear-gradient(160deg,#1E4A2E,#0E3A2B 60%,#061B13);">
+    <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,14,30,.5),rgba(6,14,30,.85));"></div>
+    <div class="statusbar dark" style="position:relative;"><span>3:47</span><span class="sb">
+      <svg width="26" height="12" viewBox="0 0 26 12"><rect x="1" y="1" width="21" height="10" rx="3" stroke="#F5F2EB" stroke-opacity=".6" fill="none"/><rect x="3" y="3" width="16" height="6" rx="1.5" fill="#F5F2EB"/></svg>
     </span></div>
-    <div class="body">
-      <div class="toprow">
-        <div class="brandmark">
-          <svg viewBox="440 320 660 610" fill="#0B1F14"><path d="M 558.324 732.789 C 543.383 714.211 531.266 694.02 522.383 672.215 C 510.266 642.734 503.805 610.828 503.805 578.117 C 503.805 510.273 531.266 448.891 575.688 404.469 C 620.109 360.047 681.496 332.586 749.34 332.586 C 774.379 332.586 799.414 336.625 823.645 344.297 C 847.473 351.969 870.492 363.277 891.086 377.816 L 866.855 412.543 C 849.492 400.43 830.914 391.141 811.125 384.68 C 791.34 378.621 770.742 375.391 749.742 375.391 C 693.609 375.391 642.727 398.008 605.977 434.758 C 569.227 471.504 546.613 522.391 546.613 578.523 C 546.613 605.578 551.863 632.234 561.957 656.465 C 568.418 671.406 576.496 685.945 586.188 699.27 L 559.133 732.789 Z M 992.449 610.023 C 984.777 669.789 955.699 722.289 913.703 760.25 C 876.547 793.77 829.703 815.98 778.012 822.039 L 770.34 844.25 L 748.934 907.246 C 734.398 864.441 719.457 822.844 704.918 780.441 C 775.992 780.441 824.051 784.48 885.434 729.152 C 918.953 698.867 942.375 657.27 950.047 610.023 Z M 894.723 592.254 L 777.609 737.23 C 765.898 751.77 749.742 759.441 731.168 759.441 L 705.727 759.441 L 822.836 614.465 C 834.551 599.926 850.703 592.254 869.277 592.254 Z M 980.738 533.293 C 974.68 520.773 966.199 510.273 955.699 502.195 C 941.566 491.293 924.203 485.234 905.625 486.043 C 889.473 486.852 876.145 490.891 864.031 498.16 C 851.512 505.832 840.203 517.141 828.895 531.676 L 549.035 877.766 C 531.266 899.574 507.035 911.285 479.172 911.285 L 467.863 911.285 L 795.781 505.426 C 809.914 487.254 824.855 472.715 841.816 462.219 C 859.586 451.313 879.777 444.852 903.605 444.043 C 932.277 442.832 959.336 452.523 980.738 469.082 C 991.238 477.16 1000.527 486.852 1008.199 497.754 L 1080.891 513.91 L 1022.738 525.215 L 980.336 533.695 Z"/></svg>
-          <b>Fourcast</b>
-        </div>
-        <span class="chip">The Mariners</span>
+    <div style="position:relative;display:flex;align-items:center;gap:12px;padding:2px 18px;">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="#FBF8F2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span style="font-size:16px;color:var(--inkNavyMuted);font-weight:500;">The Mariners · Aug 6</span>
+    </div>
+    <div style="position:absolute;left:18px;bottom:14px;right:18px;display:flex;align-items:flex-end;justify-content:space-between;">
+      <div><div class="disp mono" style="font-size:22px;color:var(--boneRaised);letter-spacing:.04em;">Round Closed</div></div>
+      <div class="mono" style="font-size:11px;letter-spacing:1px;color:var(--inkNavyMuted);white-space:nowrap;">SETTLED · 2 OF 4</div>
+    </div>
+  </div>
+  <div class="body">
+    <!-- results hero -->
+    <div class="pad" style="display:flex;align-items:center;gap:8px;padding-top:18px;">
+      <div class="lbar"></div><span class="lbl" style="color:var(--ink3);">Results</span>
+    </div>
+    <div class="pad" style="margin-top:6px;">
+      <div class="disp" style="font-size:40px;color:var(--pine);line-height:.92;">Round Complete</div>
+      <div style="font-size:16px;color:var(--ink2);margin-top:6px;">Harmony Landing · Aug 6 · Best Ball</div>
+    </div>
+    <!-- closure slab -->
+    <div style="margin:14px 20px 0;background:var(--white);border:1px solid var(--ruleMid);border-radius:12px;padding:16px;">
+      <div class="eyebrow" style="color:var(--ink3);">18th Green Recap</div>
+      <div class="disp" style="font-size:24px;color:var(--pine);margin-top:6px;">Dave & Marco take it</div>
+      <div class="lbl" style="color:var(--ink2);margin-top:6px;font-size:14px;letter-spacing:.06em;">Winner payout · +$45.00 per player</div>
+    </div>
+    <!-- debt card -->
+    <div style="margin:12px 20px 0;background:var(--white);border:1px solid var(--rule);border-left:4px solid var(--flag);border-radius:12px;padding:16px;">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div class="avatar" style="width:40px;height:40px;background:#8E6E4E;font-size:14px;">TS</div>
+        <div style="flex:1;"><span style="font-weight:600;color:var(--navy);font-size:16px;">Tom</span><span style="color:var(--ink3);font-size:13px;"> owes </span><span style="font-weight:600;color:var(--navy);font-size:16px;">Elle</span></div>
+        <div class="mono" style="font-size:22px;color:var(--navy);font-weight:500;">$12.00</div>
       </div>
-
-      <div class="navycard">
-        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-          <div>
-            <span class="pill light">Today · 7:40 tee</span>
-            <div style="font-family:'DM Serif Display',serif; font-size:24px; margin-top:12px;">Harmony Landing</div>
-          </div>
-          <div style="text-align:right;"><div class="num" style="font-size:32px;">16</div><div style="opacity:.75; font-size:12px;">checked in</div></div>
-        </div>
-        <div style="display:flex; gap:9px; margin-top:18px;">
-          <div style="flex:1; background:rgba(255,255,255,.12); border-radius:13px; padding:11px 8px; text-align:center; font-size:12.5px; font-weight:600;">Check-in</div>
-          <div style="flex:1; background:var(--birdie); border-radius:13px; padding:11px 8px; text-align:center; font-size:12.5px; font-weight:600;">Draw teams</div>
-          <div style="flex:1; background:rgba(255,255,255,.12); border-radius:13px; padding:11px 8px; text-align:center; font-size:12.5px; font-weight:600;">Score</div>
-        </div>
-      </div>
-
-      <div style="display:flex; align-items:center; justify-content:space-between; margin:18px 4px 10px;">
-        <div class="h-sec">Season standings</div><span class="muted" style="font-size:13px;">Week 12</span>
-      </div>
-      <div class="card" style="padding:6px 18px;">
-        <div class="lb-row"><span class="lb-rank" style="color:var(--trophy);">1</span><div class="avatar" style="width:32px;height:32px;background:#0B1F14;">DK</div><div style="font-weight:600;color:var(--ink);">Dave K.</div><span class="lb-score up">42</span></div>
-        <div class="divider" style="margin:0;"></div>
-        <div class="lb-row"><span class="lb-rank">2</span><div class="avatar" style="width:32px;height:32px;background:#1B7A3D;">You</div><div style="font-weight:600;color:var(--ink);">You</div><span class="lb-score">38</span></div>
-        <div class="divider" style="margin:0;"></div>
-        <div class="lb-row"><span class="lb-rank">3</span><div class="avatar" style="width:32px;height:32px;background:#494D4D;">MR</div><div style="font-weight:600;color:var(--ink);">Marco R.</div><span class="lb-score">35</span></div>
+      <div style="display:flex;align-items:center;gap:8px;margin-top:12px;">
+        <div style="flex:1;height:44px;background:var(--pine);border-radius:12px;display:flex;align-items:center;justify-content:center;"><span class="lbl" style="color:var(--bone);">Remind</span></div>
+        <div style="flex:1;height:44px;border:1.5px solid var(--pine);border-radius:12px;display:flex;align-items:center;justify-content:center;gap:6px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5 9-10" stroke="#0E3A2B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span class="lbl" style="color:var(--pine);">Mark Paid</span></div>
       </div>
     </div>
-    <div class="tabbar">
-      <div class="tab active"><svg viewBox="0 0 24 24" fill="none"><path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11Z" stroke="#1B7A3D" stroke-width="1.8"/><circle cx="12" cy="10" r="2.4" stroke="#1B7A3D" stroke-width="1.8"/></svg><span>Home</span></div>
-      <div class="tab"><svg viewBox="0 0 24 24" fill="none"><path d="M6 4h12v3a6 6 0 0 1-12 0V4Z" stroke="#B6B9C3" stroke-width="1.8"/><path d="M18 5h2.5a2.5 2.5 0 0 1-2.5 2.5M6 5H3.5A2.5 2.5 0 0 0 6 7.5M10 15h4v3h-4z" stroke="#B6B9C3" stroke-width="1.8"/></svg><span>Standings</span></div>
-      <div class="tab"><svg viewBox="0 0 24 24" fill="none"><path d="M6 9a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6Z" stroke="#B6B9C3" stroke-width="1.8"/><path d="M10 19a2 2 0 0 0 4 0" stroke="#B6B9C3" stroke-width="1.8"/></svg><span>Alerts</span></div>
-      <div class="tab"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3.4" stroke="#B6B9C3" stroke-width="1.8"/><path d="M5.5 20a6.5 6.5 0 0 1 13 0" stroke="#B6B9C3" stroke-width="1.8"/></svg><span>Profile</span></div>
-    </div>
-  </div></div>
+  </div>
+</div></div>
 
-  <!-- ================= SCREEN 3 — CHECK-IN ROSTER ================= -->
-  <div class="device" id="s3"><div class="screen">
-    <div class="island"></div>
-    <div class="statusbar"><span>7:10</span><span class="sb-icons">
-      <svg width="26" height="12" viewBox="0 0 26 12" fill="none"><rect x="1" y="1" width="21" height="10" rx="3" stroke="#282E34" stroke-opacity=".5"/><rect x="3" y="3" width="16" height="6" rx="1.5" fill="#282E34"/></svg>
-    </span></div>
-    <div class="body">
-      <div class="toprow">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="#282E34" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <div style="text-align:center;"><div class="kicker">Harmony Landing</div><div style="font-weight:700; color:var(--ink); font-size:17px;">Check-in</div></div>
-        <span class="pill birdie" style="font-size:13px;">12 of 16</span>
-      </div>
-      <div class="card" style="padding:4px 18px;">
-        <div class="row" style="padding:13px 0;"><div class="avatar" style="width:40px;height:40px;background:#0B1F14;">DK</div><div style="flex:1;"><div style="font-weight:700;color:var(--ink);">Dave Karras</div><div class="muted" style="font-size:12.5px;">HCP 6.2 · captain</div></div><div class="toggle on"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5 9-10" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
-        <div class="divider" style="margin:0;"></div>
-        <div class="row" style="padding:13px 0;"><div class="avatar" style="width:40px;height:40px;background:#1B7A3D;">MR</div><div style="flex:1;"><div style="font-weight:700;color:var(--ink);">Marco Ruiz</div><div class="muted" style="font-size:12.5px;">HCP 11.4</div></div><div class="toggle on"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5 9-10" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
-        <div class="divider" style="margin:0;"></div>
-        <div class="row" style="padding:13px 0;"><div class="avatar" style="width:40px;height:40px;background:#494D4D;">TS</div><div style="flex:1;"><div style="font-weight:700;color:var(--ink);">Tom Sauer</div><div class="muted" style="font-size:12.5px;">HCP 14.0 · guest</div></div><div class="toggle on"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5 9-10" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
-        <div class="divider" style="margin:0;"></div>
-        <div class="row" style="padding:13px 0; opacity:.55;"><div class="avatar" style="width:40px;height:40px;background:#C4BFB3;">JL</div><div style="flex:1;"><div style="font-weight:700;color:var(--ink);">Jim Lowe</div><div class="muted" style="font-size:12.5px;">HCP 9.8</div></div><div class="toggle off"></div></div>
-        <div class="divider" style="margin:0;"></div>
-        <div class="row" style="padding:13px 0; opacity:.55;"><div class="avatar" style="width:40px;height:40px;background:#C4BFB3;">PW</div><div style="flex:1;"><div style="font-weight:700;color:var(--ink);">Pete Weir</div><div class="muted" style="font-size:12.5px;">HCP 18.2</div></div><div class="toggle off"></div></div>
-      </div>
-      <div class="btn green" style="margin-top:16px;">Draw teams
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 5l7 7-7 7" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      <div class="muted" style="text-align:center; font-size:12px; margin-top:12px;">GHIN sync keeps handicaps honest</div>
-    </div>
-  </div></div>
-
-  <!-- ================= SCREEN 4 — TEAM DRAW ================= -->
-  <div class="device" id="s4"><div class="screen">
-    <div class="island"></div>
-    <div class="statusbar"><span>7:14</span><span class="sb-icons">
-      <svg width="26" height="12" viewBox="0 0 26 12" fill="none"><rect x="1" y="1" width="21" height="10" rx="3" stroke="#282E34" stroke-opacity=".5"/><rect x="3" y="3" width="16" height="6" rx="1.5" fill="#282E34"/></svg>
-    </span></div>
-    <div class="body">
-      <div class="toprow">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="#282E34" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <div style="text-align:center;"><div class="kicker">Fair sides</div><div style="font-weight:700; color:var(--ink); font-size:17px;">Teams drawn</div></div>
-        <span class="pill birdie" style="font-size:13px;">balanced</span>
-      </div>
-
-      <div class="card" style="padding:16px; margin-bottom:14px;">
-        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
-          <div class="h-sec" style="font-size:19px;">Team A</div><span class="pill gold">HCP 31</span></div>
-        <div class="row" style="padding:8px 0;"><div class="avatar" style="width:34px;height:34px;background:#0B1F14;">DK</div><div style="font-weight:600;color:var(--ink);flex:1;">Dave Karras</div><span class="muted">6.2</span></div>
-        <div class="row" style="padding:8px 0;"><div class="avatar" style="width:34px;height:34px;background:#494D4D;">TS</div><div style="font-weight:600;color:var(--ink);flex:1;">Tom Sauer</div><span class="muted">14.0</span></div>
-        <div class="row" style="padding:8px 0;"><div class="avatar" style="width:34px;height:34px;background:#C4BFB3;">PW</div><div style="font-weight:600;color:var(--ink);flex:1;">Pete Weir</div><span class="muted">18.2</span></div>
-      </div>
-
-      <div class="card" style="padding:16px;">
-        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
-          <div class="h-sec" style="font-size:19px;">Team B</div><span class="pill gold">HCP 30</span></div>
-        <div class="row" style="padding:8px 0;"><div class="avatar" style="width:34px;height:34px;background:#1B7A3D;">You</div><div style="font-weight:600;color:var(--ink);flex:1;">You</div><span class="muted">8.5</span></div>
-        <div class="row" style="padding:8px 0;"><div class="avatar" style="width:34px;height:34px;background:#173a24;">MR</div><div style="font-weight:600;color:var(--ink);flex:1;">Marco Ruiz</div><span class="muted">11.4</span></div>
-        <div class="row" style="padding:8px 0;"><div class="avatar" style="width:34px;height:34px;background:#C4BFB3;">JL</div><div style="font-weight:600;color:var(--ink);flex:1;">Jim Lowe</div><span class="muted">9.8</span></div>
-      </div>
-
-      <div class="btn" style="margin-top:16px;">Start scoring</div>
-    </div>
-  </div></div>
-
-  <!-- ================= SCREEN 5 — BEAGLE / LIVE STANDINGS ================= -->
-  <div class="device" id="s5"><div class="screen">
-    <div class="island"></div>
-    <div class="statusbar"><span>11:26</span><span class="sb-icons">
-      <svg width="26" height="12" viewBox="0 0 26 12" fill="none"><rect x="1" y="1" width="21" height="10" rx="3" stroke="#282E34" stroke-opacity=".5"/><rect x="3" y="3" width="16" height="6" rx="1.5" fill="#282E34"/></svg>
-    </span></div>
-    <div class="body">
-      <div class="toprow">
-        <div><div class="kicker">Live · Hole 7</div><div class="greet" style="font-size:26px;">Standings</div></div>
-        <span class="chip" style="background:#EAF3EC; color:#1B7A3D;">● updating</span>
-      </div>
-
-      <!-- beagle detection banner -->
-      <div class="navycard" style="padding:16px; display:flex; align-items:center; gap:13px; background:linear-gradient(150deg,#1B7A3D,#0B1F14);">
-        <div style="width:44px;height:44px;border-radius:50%;background:rgba(201,162,39,.22);display:flex;align-items:center;justify-content:center;flex:0 0 auto;">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M7 3v18" stroke="#C9A227" stroke-width="1.9" stroke-linecap="round"/><path d="M7 4h10.5l-3 3 3 3H7" stroke="#C9A227" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round"/></svg>
-        </div>
-        <div style="flex:1;"><div style="font-weight:700; font-size:15.5px;">Beagle on 7</div><div style="opacity:.82; font-size:12.5px; margin-top:2px;">Marco — gross birdie, net eagle · auto-logged</div></div>
-      </div>
-
-      <div class="card" style="padding:6px 18px; margin-top:14px;">
-        <div class="lb-row"><span class="lb-rank" style="color:var(--trophy);">1</span><div class="avatar" style="width:34px;height:34px;background:#0B1F14;">DK</div><div style="flex:1;"><div style="font-weight:700;color:var(--ink);">Dave K.</div><div class="muted" style="font-size:12px;">thru 7</div></div><span class="lb-score up">−4</span></div>
-        <div class="divider" style="margin:0;"></div>
-        <div class="lb-row"><span class="lb-rank">2</span><div class="avatar" style="width:34px;height:34px;background:#1B7A3D;">MR</div><div style="flex:1;"><div style="font-weight:700;color:var(--ink);">Marco R. <span class="pill birdie" style="padding:2px 7px; font-size:10px; vertical-align:middle;">▲2</span></div><div class="muted" style="font-size:12px;">thru 7</div></div><span class="lb-score up">−3</span></div>
-        <div class="divider" style="margin:0;"></div>
-        <div class="lb-row"><span class="lb-rank">3</span><div class="avatar" style="width:34px;height:34px;background:#494D4D;">You</div><div style="flex:1;"><div style="font-weight:700;color:var(--ink);">You</div><div class="muted" style="font-size:12px;">thru 7</div></div><span class="lb-score">−1</span></div>
-      </div>
-
-      <div class="card" style="margin-top:14px; display:flex; align-items:center; gap:12px;">
-        <span class="pill gold">Skins</span>
-        <div style="flex:1; color:var(--ink); font-weight:600; font-size:14px;">Hole 7 carried — pot rides to 8</div>
-        <span class="num" style="font-size:18px; color:var(--ink);">$20</span>
-      </div>
-    </div>
-    <div class="tabbar">
-      <div class="tab"><svg viewBox="0 0 24 24" fill="none"><path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11Z" stroke="#B6B9C3" stroke-width="1.8"/><circle cx="12" cy="10" r="2.4" stroke="#B6B9C3" stroke-width="1.8"/></svg><span>Home</span></div>
-      <div class="tab active"><svg viewBox="0 0 24 24" fill="none"><path d="M6 4h12v3a6 6 0 0 1-12 0V4Z" stroke="#1B7A3D" stroke-width="1.8"/><path d="M18 5h2.5a2.5 2.5 0 0 1-2.5 2.5M6 5H3.5A2.5 2.5 0 0 0 6 7.5M10 15h4v3h-4z" stroke="#1B7A3D" stroke-width="1.8"/></svg><span>Standings</span></div>
-      <div class="tab"><svg viewBox="0 0 24 24" fill="none"><path d="M6 9a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6Z" stroke="#B6B9C3" stroke-width="1.8"/><path d="M10 19a2 2 0 0 0 4 0" stroke="#B6B9C3" stroke-width="1.8"/></svg><span>Alerts</span></div>
-      <div class="tab"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3.4" stroke="#B6B9C3" stroke-width="1.8"/><path d="M5.5 20a6.5 6.5 0 0 1 13 0" stroke="#B6B9C3" stroke-width="1.8"/></svg><span>Profile</span></div>
-    </div>
-  </div></div>
-
-  <!-- ================= SCREEN 6 — SETTLEMENT + SHARE ================= -->
-  <div class="device" id="s6"><div class="screen">
-    <div class="island"></div>
-    <div class="statusbar"><span>1:42</span><span class="sb-icons">
-      <svg width="26" height="12" viewBox="0 0 26 12" fill="none"><rect x="1" y="1" width="21" height="10" rx="3" stroke="#282E34" stroke-opacity=".5"/><rect x="3" y="3" width="16" height="6" rx="1.5" fill="#282E34"/></svg>
-    </span></div>
-    <div class="body">
-      <div class="toprow">
-        <div><div class="kicker">Round complete</div><div class="greet" style="font-size:26px;">Settlement</div></div>
-        <span class="pill birdie" style="font-size:13px;">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5 9-10" stroke="#1B7A3D" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Books balance</span>
-      </div>
-
-      <div class="card" style="padding:6px 18px;">
-        <div class="settle-row"><div class="row"><div class="avatar" style="width:34px;height:34px;background:#0B1F14;">DK</div><div><div style="font-weight:700;color:var(--ink);">Dave → You</div><small class="cap muted">Skins + nassau</small></div></div><span class="amt up">+$10.00</span></div>
-        <div class="divider" style="margin:0;"></div>
-        <div class="settle-row"><div class="row"><div class="avatar" style="width:34px;height:34px;background:#1B7A3D;">MR</div><div><div style="font-weight:700;color:var(--ink);">You → Marco</div><small class="cap muted">Back-nine press</small></div></div><span class="amt owe">−$5.00</span></div>
-        <div class="divider" style="margin:0;"></div>
-        <div class="settle-row"><div class="row"><div class="avatar" style="width:34px;height:34px;background:#494D4D;">TS</div><div><div style="font-weight:700;color:var(--ink);">Tom → You</div><small class="cap muted">Closest to pin</small></div></div><span class="amt up">+$5.00</span></div>
-      </div>
-
-      <div class="card" style="margin-top:12px; display:flex; align-items:center; justify-content:space-between; background:#F7F5F0;">
-        <div style="font-weight:700; color:var(--ink);">Your net</div><div class="num" style="font-size:24px; color:var(--birdie);">+$10.00</div>
-      </div>
-
-      <div class="sharecard" style="margin-top:14px;">
-        <div style="display:flex; align-items:center; justify-content:space-between;">
-          <div class="kicker" style="color:rgba(255,255,255,.7);">Harmony Landing · Sat</div>
-          <span class="pill gold" style="background:rgba(201,162,39,.2);">Legend</span>
-        </div>
-        <div style="font-family:'DM Serif Display',serif; font-size:21px; margin-top:8px;">Marco’s beagle on 7 stole the day.</div>
-        <div style="opacity:.8; font-size:13px; margin-top:4px;">Dave takes the pool · net eagle logged</div>
-      </div>
-
-      <div class="btn green" style="margin-top:14px;">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7M16 6l-4-4-4 4M12 2v13" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        Share to group chat</div>
-    </div>
-  </div></div>
-
-</div>
+<style>
+  .holetile{width:52px;height:52px;flex:0 0 auto;border-radius:8px;display:flex;align-items:center;justify-content:center;
+    font-family:'JetBrains Mono';font-weight:500;font-size:18px;color:#FBF8F2;}
+  .seg{flex:1;text-align:center;padding:0 4px;}
+  .chkrow{display:flex;align-items:center;gap:13px;padding:12px 20px;}
+  .chk{width:30px;height:30px;border-radius:50%;flex:0 0 auto;display:flex;align-items:center;justify-content:center;}
+  .chk.on{background:var(--pine);} .chk.off{border:2px solid #D9D5CC;} .chk svg{width:16px;height:16px;}
+  .lbcard{margin:8px 16px 0;background:var(--white);border-radius:16px;padding:14px 16px;display:flex;align-items:center;gap:12px;box-shadow:0 6px 16px -12px rgba(6,27,19,.4);}
+  .rankc{border-radius:50%;flex:0 0 auto;display:flex;align-items:center;justify-content:center;color:var(--ink);}
+</style>
 </body>
 </html>
